@@ -6,26 +6,32 @@
 ***********************************************/
 
 public class Conexion<T extends Comparable> {
+    //ATRIBUTOS
     private T destino;
     private int valor;
     
+    //METODOS
     public Conexion(T destino, int valor){
         this.destino = destino;
         this.valor = valor;
     }
     
+    //Cambia el destino
     public void setDestino(T destino){
         this.destino = destino;
     }
     
+    //Cambia el valor
     public void setValor(int valor){
         this.valor = valor;
     }
     
+    //Obtiene el destino
     public T getDestino(){
         return destino;
     }
     
+    //Obtiene el valor
     public int getValor(){
         return valor;
     }

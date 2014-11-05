@@ -12,12 +12,14 @@ public class Floyd<T extends Comparable> {
     public Floyd(){
     }
     
+    //Implementación del algoritmo Floyd
     public ArrayList algoritmoFloyd(Grafo digrafo){
         construirAdyacencia(digrafo);
         return new ArrayList();
     }
     
-    private void construirAdyacencia(Grafo digrafo){
+    //Construyendo la matriz de adyacencia
+    private String[][] construirAdyacencia(Grafo digrafo){
         //Etiquetas de destinos
         ArrayList<Nodo> Nodes = digrafo.getNodos();
         String[][] adyacencia = new String[Nodes.size()][Nodes.size()];
@@ -37,5 +39,7 @@ public class Floyd<T extends Comparable> {
                 }
             }
         }
+        return adyacencia;
     }
+    
 }

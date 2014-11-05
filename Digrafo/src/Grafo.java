@@ -8,42 +8,89 @@ import java.util.ArrayList;
 
 public class Grafo<T extends Comparable> {
     //ATRIBUTOS
-    private ArrayList<Nodo> nodos;
+    private Nodo[] nodos;
     private Nodo<T> centro;
+    private int dimension;
+    private ArrayList<T> nombreNodos;
     
-    //METODOS
-    public Grafo(){
+    public Grafo(int dimension, ArrayList<T> nombreNodos){
+        this.dimension = dimension;
+        this.nombreNodos = nombreNodos;
+        nodos = new Nodo[dimension];
+        for(int i = 0; i<dimension-1; i++){
+            nodos[i] = new Nodo(dimension, nombreNodos.get(i));
+        }
     }
     
-    //Elimina una conexion entre dos nodos
-    public void eliminarConexion(T destino, T origen){
-        for(int i = 0; i<nodos.size(); i++){
-            if(nodos.get(i).getOrigen().equals(origen)){
-                nodos.get(i).eliminarDestino(destino);
+    public void agregarArco(T origen, T vecino, int valor){
+        for(int i = 0; i<dimension; i++){
+            if(nodos[i].getNombre().equals(origen)){
+                nodos[i].agregarVecino(nombreNodos.indexOf(origen), 0);
+                nodos[i].agregarVecino(nombreNodos.indexOf(vecino), valor);
+            }
+            if(nodos[i].getNombre().equals(vecino)){
+                nodos[i].agregarVecino(nombreNodos.indexOf(vecino), 0);
+                nodos[i].agregarVecino(nombreNodos.indexOf(origen), valor);
             }
         }
     }
     
-    //Establece una conexion entre dos nodos
-    public void agregarConexion(T destino, T origen, int valor){
-        for(int i = 0; i<nodos.size(); i++){
-            if(nodos.get(i).getOrigen().equals(origen)){
-                nodos.get(i).agregarDestino(destino, valor);
+    public void eliminarArco(String origen, String vecino){
+        for(int i = 0; i<dimension; i++){
+            if(nodos[i].getNombre().equals(origen)){
+                nodos[i].agregarVecino(nombreNodos.indexOf(vecino), 9999);
+            }
+            if(nodos[i].getNombre().equals(vecino)){
+                nodos[i].agregarVecino(nombreNodos.indexOf(origen), 9999);
             }
         }
     }
     
-    //Crea un nodo
-    public void crearNodo(T origen){
-        nodos.add(new Nodo(origen));
+    public void agregarNodo(T nombreNodo){
+        boolean existente = false;
+        if(nombreNodos.contains(nombreNodo)){
+            System.out.println("Este nodo ya existe");
+            existente = true;
+        }
+        if(!existente){
+            //Agregando el nodo
+            dimension = dimension + 1;
+            nombreNodos.add(nombreNodo);
+            Nodo nodo = new Nodo(dimension, nombreNodo);
+            
+            //Reacomodamiento de todos los nodos
+            Nodo[] newNodos = new Nodo[dimension];
+            
+            for(int i = 0; i<dimension-1; i++){
+                newNodos[i] = new Nodo(dimension, nombreNodos.get(i));
+                for(int j = 0; j<dimension-1; j++){
+                    newNodos[i].agregarVecino(Integer.parseInt(nodos[i].getVecinos()[j]), j);
+                }
+            }
+            newNodos[dimension-1] = nodo;
+            nodos = newNodos;
+        }
     }
     
-    //Calcula el centro del grafo
-    public void centroGrafo(ArrayList matrizAdyacencia){
-    
+    public int[][] matrizAdyacencia(){
+        int[][] matriz = new int[dimension][dimension];
+        for(int i=0; i<dimension; i++){
+           for(int j=0; j<dimension; j++){
+               matriz[i][j] = Integer.parseInt(nodos[i].getVecinos()[j]);
+           }
+        }
+        return matriz;
     }
     
-    public ArrayList<Nodo> getNodos(){
-        return nodos;
+    public int getDimension(){
+        return dimension;
+    }
+    
+    public ArrayList<T> getNombreNodos(){
+        return nombreNodos;
+    }
+    
+    public Nodo<T> getCentro(){
+        return centro;
     }
 }

@@ -5,7 +5,6 @@
  * Carnet; 13017;    Fecha: 03/11/2014
 ***********************************************/
 
-import java.util.ArrayList;
 
 public class Nodo<T extends Comparable> {
     //ATRIBUTOS
@@ -17,7 +16,7 @@ public class Nodo<T extends Comparable> {
         this.nombre = nombre;
         this.vecinos = new String[dimension];
         for(int i = 0; i<dimension; i++){
-            vecinos[i] = "9999";
+            vecinos[i] = "999";
         }
     }
     
@@ -26,7 +25,7 @@ public class Nodo<T extends Comparable> {
     }
     
     public void eliminarVecino(int columna){
-        vecinos[columna] = "0";
+        vecinos[columna] = "999";
     }
     
     public T getNombre(){

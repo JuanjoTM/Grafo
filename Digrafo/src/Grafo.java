@@ -11,13 +11,13 @@ public class Grafo<T extends Comparable> {
     private Nodo[] nodos;
     private Nodo<T> centro;
     private int dimension;
-    private ArrayList<T> nombreNodos;
+    private ArrayList<T> nombreNodos = new ArrayList();
     
     public Grafo(int dimension, ArrayList<T> nombreNodos){
         this.dimension = dimension;
         this.nombreNodos = nombreNodos;
         nodos = new Nodo[dimension];
-        for(int i = 0; i<dimension-1; i++){
+        for(int i = 0; i<dimension; i++){
             nodos[i] = new Nodo(dimension, nombreNodos.get(i));
         }
     }
@@ -25,12 +25,12 @@ public class Grafo<T extends Comparable> {
     public void agregarArco(T origen, T vecino, int valor){
         for(int i = 0; i<dimension; i++){
             if(nodos[i].getNombre().equals(origen)){
-                nodos[i].agregarVecino(nombreNodos.indexOf(origen), 0);
-                nodos[i].agregarVecino(nombreNodos.indexOf(vecino), valor);
+                nodos[i].agregarVecino(0, nombreNodos.indexOf(origen));
+                nodos[i].agregarVecino(valor, nombreNodos.indexOf(vecino));
             }
             if(nodos[i].getNombre().equals(vecino)){
-                nodos[i].agregarVecino(nombreNodos.indexOf(vecino), 0);
-                nodos[i].agregarVecino(nombreNodos.indexOf(origen), valor);
+                nodos[i].agregarVecino(0, nombreNodos.indexOf(vecino));
+                nodos[i].agregarVecino(valor, nombreNodos.indexOf(origen));
             }
         }
     }
@@ -38,10 +38,10 @@ public class Grafo<T extends Comparable> {
     public void eliminarArco(String origen, String vecino){
         for(int i = 0; i<dimension; i++){
             if(nodos[i].getNombre().equals(origen)){
-                nodos[i].agregarVecino(nombreNodos.indexOf(vecino), 9999);
+                nodos[i].eliminarVecino(nombreNodos.indexOf(vecino));
             }
             if(nodos[i].getNombre().equals(vecino)){
-                nodos[i].agregarVecino(nombreNodos.indexOf(origen), 9999);
+                nodos[i].eliminarVecino(nombreNodos.indexOf(origen));
             }
         }
     }
@@ -82,6 +82,35 @@ public class Grafo<T extends Comparable> {
         return matriz;
     }
     
+    public void calcularCentro(int[][] matrizFloyd){
+        int[] maximos = new int[dimension];
+        
+        for(int i=0; i<dimension; i++){
+            maximos[i] = 0;
+        }
+        
+        int temp = 0;
+        for(int i=0; i<dimension; i++){
+            for(int j=0; j<dimension; j++){
+                if(matrizFloyd[j][i]>temp){
+                    temp = matrizFloyd[j][i];
+                }
+            }
+            maximos[i] = temp;
+            temp = 0;
+        }
+        
+        int minimo = 9999;
+        int indexCentro = 0;
+        for(int i=0; i<dimension; i++){
+            if(maximos[i]<minimo){
+                minimo = maximos[i];
+                indexCentro = i;
+            }
+        }
+        centro = nodos[indexCentro];
+    }
+    
     public int getDimension(){
         return dimension;
     }
@@ -92,5 +121,12 @@ public class Grafo<T extends Comparable> {
     
     public Nodo<T> getCentro(){
         return centro;
+    }
+    
+    public void imprimirNombres(){
+        //nombreNodos.get(i)
+        for(int i = 0; i<dimension; i++){
+            System.out.println(nodos[i].getNombre());
+        }
     }
 }

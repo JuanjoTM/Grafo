@@ -124,7 +124,6 @@ public class Grafo<T extends Comparable> {
     }
     
     public void imprimirNombres(){
-        //nombreNodos.get(i)
         for(int i = 0; i<dimension; i++){
             System.out.println(nodos[i].getNombre());
         }

@@ -1,0 +1,21 @@
+10
+Mazatenango
+Cuyotenango
+Rethaluleu
+Escuintla
+Quetzaltenango
+Flores
+Guatemala
+Antigua
+Puerto_Barrios
+Tecun
+Mazatenango Cuyotenango 7
+Cuyotenango Rethaluleu 20
+Mazatenango Escuintla 180
+Mazatenango Guatemala 240
+Escuintla Guatemala 130
+Guatemala Antigua 50
+Guatemala Puerto_Barrios 170
+Rethaluleu Quetzaltenango 105
+Puerto_Barrios Flores 245
+Rethaluleu Tecun 320
